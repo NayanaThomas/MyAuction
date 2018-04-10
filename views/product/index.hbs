@@ -1,0 +1,22 @@
+{{# each products }}
+	{{# each this }}
+		<div class="card" style="width: 18rem;">
+			<div class="thumbnail">
+		  		<img class="card-img-top" src="{{ this.image }}" alt="Product image" class ="img-responsive">
+		  		<div class="card-body">
+		    		<h5 class="card-title">{{ this.name }}</h5>
+		    		<div class="description">
+			    		<ul class="list-unstyled">
+					    	<li>Category: {{ this.category }}</li>
+					    	<li>Description: {{ this.description }}</li>
+					    	<li>Timer: {{ this.timer }}</li>  
+					    	<li>Minimum Bid: {{ this.amount }}$</li>
+					    	<li>Seller: {{ this.seller }}</li>
+			    		</ul>
+		    		</div>
+		    		<a href="#" class="btn btn-primary">Bid</a>
+		  		</div>
+		  	</div>	
+		</div>
+	{{/each}}
+{{/each}}
