@@ -1,0 +1,15 @@
+<h1>Insert</h1>
+<form method="post" action="/add">
+    <label>Product Name</label>:<input type="text" name="Name">
+	</br>
+    <label>Description</label>:<input type="text" name="Description">
+	</br>
+    <label>Category</label>:<input type="text" name="Category">
+	</br>
+    <label>Time</label>:<input type="text" name="Time">
+	</br>
+    <label>Amount</label>:<input type="number" name="Amount">	
+    </br>			
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}">          
+    <input type="submit" value="Submit">
+</form>

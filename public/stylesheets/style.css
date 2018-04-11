@@ -1,6 +1,6 @@
  .thumbnail img {
- 	max-height: 250px;
- 	width: 300;
+ 	height: 250px;
+ 	width: 300px;
  }
 
  .thumbnail .description {

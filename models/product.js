@@ -10,4 +10,4 @@ var schema = new Schema({
 	seller: {type: String, required: true}
 });
 
-module.exports = mongoose.model('createProduct',schema); 
+module.exports = mongoose.model('product',schema); 

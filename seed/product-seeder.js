@@ -1,6 +1,6 @@
-var Product = require('../models/createProduct');
+var Product = require('../models/product');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/products');
+mongoose.connect('mongodb://localhost:27017/auction');
 var products = [ new Product({
 	name: 'Television',
 	description: 'brand new',
@@ -43,7 +43,7 @@ var done =0;
 for(var i=0;i<products.length;i++) {
 	products[i].save(function(err,result) {
 		done++;
-		if(done == products.length) {
+		if(done === products.length) {
 			exit();
 		}
 	});
