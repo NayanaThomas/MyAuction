@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#"><i class="fas fa-home"></i>Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/"><i class="fas fa-home"></i>Home <span class="sr-only">(current)</span></a>
       </li>
        <li class="nav-item">
         <a class="nav-link" href="/products/add">Add products</a>
@@ -17,18 +17,27 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i>
-          User Account
+          User Management
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">My profile</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Your Auctions</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Favourites</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Logout</a>
-        </div>
-      </li>
+        {{# if login }}
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/user/profile">My profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Your Auctions</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Favourites</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/user/logout">Logout</a>
+            </div>
+        {{ else }}
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/user/signin">Sign In</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/user/signun">Sign Up</a>
+            </div> 
+        {{/if}}
+
+      </li> 
          
     </ul>
     <form class="form-inline my-2 my-lg-0">
