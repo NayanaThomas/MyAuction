@@ -2,21 +2,43 @@ var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
 var passport = require('passport');
-
-
+var monk = require('monk');
+// var angular = require('angular');
 var csrfProtection = csrf();
 router.use(csrfProtection);
+var url = require('url');
 
-router.get('/profile',  isLoggedIn,function(req, res, next) {
+var db = monk('localhost:27017/auction');
+
+// defining the route
+router.get('/profile', isLoggedIn, function(req, res, next){
 	res.render('user/profile');
- });
+});
+
+router.get('/favourites/:id',  isLoggedIn, function(req, res, next) {
+	var userCollection = db.get('users');
+	// var prodCollection = db.get('products');
+	userCollection.update({ seller: 'tes.test@gmail.com' },'favourites' , function(err, productIds){
+			if (err) throw err;
+			// res.send(productIds);
+			res.render('user/favourites', {products: productIds});
+	});
+});
+
+router.get('/userAuctionItems',  isLoggedIn, function(req, res, next) {
+	var collection = db.get('products');
+	collection.find({ seller: req.session.passport.user }, function(err, products){
+			if (err) throw err;
+		res.render('user/userAuctionItems', {products: products});
+	});
+});
 
 router.get('/logout', isLoggedIn, function(req, res, next) {
 	req.logout();
 	res.redirect('/');
 });
 
-router.use('/', isnotLoggedIn,function(req, res, next) {
+router.use('/', isnotLoggedIn, function(req, res, next) {
 	next();
 });
 
@@ -31,28 +53,25 @@ router.post('/signup', passport.authenticate('local.signup', {
 	failureFlash: true
 }));
 
-
-
-
-
 router.get('/signin', function(req, res, next) {
 	var messages = req.flash('error');
 	res.render('user/signin',{csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length>0});
 
 });
-router.post('/signin', passport.authenticate('local.signin', { 
+router.post('/signin', passport.authenticate('local.signin', {
 	successRedirect: '/user/profile',
 	failureRedirect: '/user/signin',
 	failureFlash: true
 }));
 
-module.exports = router;
-
 function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) {
+	if (req.user) {
 		return next();
 	}
-	res.redirect('/');
+	else{
+		res.redirect('/');
+	}
+	
 }
 
 function isnotLoggedIn(req, res, next) {
@@ -61,3 +80,7 @@ function isnotLoggedIn(req, res, next) {
 	}
 	res.redirect('/');
 }
+
+
+module.exports = router;
+

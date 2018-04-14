@@ -11,6 +11,14 @@ passport.deserializeUser(function(id, done) {
 		done(err, user);
 	});
 });
+// 
+// passport.use('createproduct', new LocalStrategy({
+// 	name: 'name',
+// 	description: 'description',
+// 	category: 'category',
+// 	time: 'time',
+// 	amount: 'amount'
+// }));
 
 passport.use('local.signup', new LocalStrategy({
 	usernameField: 'email',
@@ -73,7 +81,7 @@ function(req, email, password, done) {
 		}
 		if (!user.validPassword(password)) {
 			return done(null, false, {message: 'Wrong password.'});
-		} 
+		}
 		return done(null, user);
 	});
 }));

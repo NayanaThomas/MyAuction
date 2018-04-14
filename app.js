@@ -12,12 +12,14 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var validator = require('express-validator');
 var MongoStore = require('connect-mongo')(session);
+var multer = require('multer');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 
 var app = express();
+var bodyParser = require('body-parser');
 
 mongoose.connect('mongodb://localhost:27017/auction');
 require('./config/passport');
@@ -30,15 +32,13 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false }));
+app.use(bodyParser.urlencoded({extended: true }));
 app.use(validator());
 app.use(cookieParser());
 app.use(session({
-	secret: 'mysupersecret', 
-	resave: false, 
-	saveUnitialized: false,
-	store: new MongoStore({ mongooseConnection: mongoose.connection }),
-	cookie: { maxAge: 180 * 60 * 1000 }
+	secret: 'mysupersecret',
+	resave: false,
+	saveUnitialized: true
 }));
 app.use(flash());
 app.use(passport.initialize());
@@ -52,10 +52,10 @@ app.use(function (req, res, next) {
 });
 
 
-
+app.use('/product',productsRouter);
 app.use('/user', usersRouter);
 app.use('/', indexRouter);
-app.use('/api/products',productsRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
